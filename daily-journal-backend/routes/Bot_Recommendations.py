@@ -1,0 +1,61 @@
+from fastapi import APIRouter
+from config.API_KEYS import MOVIE_API_KEY
+from middelware.APISMiddelware import getGenresList,getRandomNumber,getGenreID,getGenresName,getResponseAsJson
+
+
+RecommendationsRouter = APIRouter()
+
+movie_api_key = MOVIE_API_KEY #insert your api key here 
+
+Movies_API_BASE_URL = f"https://api.themoviedb.org/3/genre/movie/list?api_key={movie_api_key}"
+
+movie_json=getGenresList(Movies_API_BASE_URL)
+
+@RecommendationsRouter.get('/api/v1/recommendations/movies')
+def get_all_movies_geners():
+    
+    return getGenresName(Movies_API_BASE_URL,"genres")
+
+
+@RecommendationsRouter.get('/api/v1/recommendations/movies/{genere}')
+def get_movies_by_genre(genere):
+    try:
+     genereid=getGenreID(genere,"genres",Movies_API_BASE_URL)
+     
+     randomNumber= getRandomNumber(7)
+ 
+     movie_json = getResponseAsJson(f"https://api.themoviedb.org/3/discover/movie?api_key={movie_api_key}&sort_by=popularity.desc&with_genres={genereid}&page={randomNumber}&language=en-US&include_adult=false")
+     
+     randomNumber= getRandomNumber(len(movie_json["results"])-1)
+     
+     return movie_json["results"][randomNumber]["original_title"] + '  release date : ' + movie_json["results"][randomNumber]["release_date"] + " vote_average : " + str(movie_json["results"][randomNumber]["vote_average"]) + " overview : " + movie_json["results"][randomNumber]["overview"] 
+    
+    except:
+        #we can handel this error by adding this "text-transform: capitalize;" in the css in the input filed 
+        return 'Invalid catgory (Note : Please check that the first letter is capitalized)' 
+
+
+
+Music_API_BASE_URL = f"https://api.deezer.com/genre"
+
+movie_json=getGenresList(Music_API_BASE_URL)
+
+
+@RecommendationsRouter.get('/api/v1/recommendations/music/')
+def get_all_music_geners():
+    return getGenresName(Music_API_BASE_URL,"data")
+
+@RecommendationsRouter.get('/api/v1/recommendations/music/{genere}')
+def get_music_by_genre(genere):
+    try:
+     genereid=getGenreID(genere,"data",Music_API_BASE_URL)
+    
+     movie_json = getResponseAsJson(f"https://api.deezer.com/chart/{genereid}?&limit=50")
+
+     randomNumber= getRandomNumber(len(movie_json["tracks"]["data"])-1)
+     
+     return movie_json["tracks"]["data"][randomNumber]["title"] + " by " + movie_json["tracks"]["data"][randomNumber]["artist"]["name"]
+  
+    except:
+        #we can handel this error by adding this "text-transform: capitalize;" in the css in the input filed 
+        return 'Invalid catgory (Note : Please check that the first letter is capitalized)' 
