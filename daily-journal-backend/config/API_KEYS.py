@@ -1,1 +1,1 @@
-MOVIE_API_KEY = 'insert your api key herer '
+MOVIE_API_KEY = 'insert your api key here '
