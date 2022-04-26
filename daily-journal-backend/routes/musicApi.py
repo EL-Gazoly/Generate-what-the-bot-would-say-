@@ -1,11 +1,11 @@
 from fastapi import APIRouter
-from middelware.APISMiddelware import getGenresList,getGenreID,getGenresName,getRandomNumber,getResponseAsJson
+from middelware.APISMiddelware import getGenreID,getGenresName,getRandomNumber,getResponseAsJson
 
 
 music = APIRouter()
 BASE_URL = f"https://api.deezer.com/genre"
 
-movie_json=getGenresList(BASE_URL)
+movie_json=getResponseAsJson(BASE_URL)
 
 
 @music.get('/music/geners/list')

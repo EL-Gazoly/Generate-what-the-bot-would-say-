@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from config.API_KEYS import MOVIE_API_KEY
-from middelware.APISMiddelware import getGenresList,getRandomNumber,getGenreID,getGenresName,getResponseAsJson
+from middelware.APISMiddelware import getRandomNumber,getGenreID,getGenresName,getResponseAsJson
 
 movie = APIRouter()
 
@@ -8,7 +8,7 @@ movie_api_key = MOVIE_API_KEY #insert your api key here
 
 BASE_URL = f"https://api.themoviedb.org/3/genre/movie/list?api_key={movie_api_key}"
 
-movie_json=getGenresList(BASE_URL)
+movie_json=getResponseAsJson(BASE_URL)
 
 @movie.get('/movies/geners/list')
 def get_all_movies_geners():
