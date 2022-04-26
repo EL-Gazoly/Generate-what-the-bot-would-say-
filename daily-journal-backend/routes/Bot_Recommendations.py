@@ -5,7 +5,7 @@ from middelware.APISMiddelware import getRandomNumber,getGenreID,getGenresName,g
 
 RecommendationsRouter = APIRouter()
 
-movie_api_key = '52d166f890a90c5a5658604fb8750ed7' #insert your api key here 
+movie_api_key = 'insert your api key here' 
 
 Movies_API_BASE_URL = f"https://api.themoviedb.org/3/genre/movie/list?api_key={movie_api_key}"
 
