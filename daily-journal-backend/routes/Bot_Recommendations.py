@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from config.API_KEYS import MOVIE_API_KEY
-from middelware.APISMiddelware import getGenresList,getRandomNumber,getGenreID,getGenresName,getResponseAsJson
+from middelware.APISMiddelware import getRandomNumber,getGenreID,getGenresName,getResponseAsJson
 
 
 RecommendationsRouter = APIRouter()
@@ -9,7 +9,7 @@ movie_api_key = MOVIE_API_KEY #insert your api key here
 
 Movies_API_BASE_URL = f"https://api.themoviedb.org/3/genre/movie/list?api_key={movie_api_key}"
 
-movie_json=getGenresList(Movies_API_BASE_URL)
+movie_json=getResponseAsJson(Movies_API_BASE_URL)
 
 @RecommendationsRouter.get('/api/v1/recommendations/movies')
 def get_all_movies_geners():
@@ -38,7 +38,7 @@ def get_movies_by_genre(genere):
 
 Music_API_BASE_URL = f"https://api.deezer.com/genre"
 
-movie_json=getGenresList(Music_API_BASE_URL)
+movie_json=getResponseAsJson(Music_API_BASE_URL)
 
 
 @RecommendationsRouter.get('/api/v1/recommendations/music/')
